@@ -1,7 +1,7 @@
 ﻿#include "Rectangle.h"
 #include "InvalidFigure.h"
 
-Rectangle::Rectangle(double a, double b, bool throwIfInvalid) : Parallelogram(a, b, 90, 90, false)
+Rectangle::Rectangle(double a, double b, double c, double d, double A, double B, double C, double D, bool throwIfInvalid) : Parallelogram(a, b, c, d, A, B, C, D, false)
 {
 	std::string reason;
 	if (throwIfInvalid && !validate(reason))

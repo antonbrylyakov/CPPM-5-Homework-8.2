@@ -27,7 +27,7 @@ int main()
 
 	try
 	{
-		IsoScelesTriangle f(10, 20, 20, 84);
+		IsoScelesTriangle f(10, 20, 30, 100, 40, 45);
 		std::cout << f.getFigureCreationReport() << std::endl;
 	}
 	catch (InvalidFigure& ex)
@@ -37,7 +37,7 @@ int main()
 
 	try
 	{
-		Parallelogram f(20, 30, 70, 110);
+		Parallelogram f(10, 20, 10, 20, 70, 110, 70, 110);
 		std::cout << f.getFigureCreationReport() << std::endl;
 	}
 	catch (InvalidFigure& ex)
@@ -47,7 +47,7 @@ int main()
 
 	try
 	{
-		Rhombus f(10, 20, 15);
+		Rhombus f(20, 20, 20, 20, 15, 165, 15, 165);
 		std::cout << f.getFigureCreationReport() << std::endl;
 	}
 	catch (InvalidFigure& ex)
@@ -57,7 +57,17 @@ int main()
 
 	try
 	{
-		Square f(40);
+		Square f(10, 20, 10, 10, 90, 90, 90, 90);
+		std::cout << f.getFigureCreationReport() << std::endl;
+	}
+	catch (InvalidFigure& ex)
+	{
+		std::cout << ex.what() << std::endl;
+	}
+
+	try
+	{
+		RightTriangle f(10, 20, 30, 20, 80, 80);
 		std::cout << f.getFigureCreationReport() << std::endl;
 	}
 	catch (InvalidFigure& ex)

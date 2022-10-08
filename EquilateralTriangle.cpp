@@ -1,7 +1,7 @@
 ﻿#include "EquilateralTriangle.h"
 #include "InvalidFigure.h"
 
-EquilateralTriangle::EquilateralTriangle(double a, bool throwIfInvalid) : IsoScelesTriangle(a, a, 60, 60, false)
+EquilateralTriangle::EquilateralTriangle(double a, double b, double c, double A, double B, double C, bool throwIfInvalid) : IsoScelesTriangle(a, b, c, A, B, C, false)
 {
 	std::string reason;
 	if (throwIfInvalid && !validate(reason))

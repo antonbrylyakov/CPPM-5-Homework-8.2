@@ -1,7 +1,7 @@
 ﻿#include "Parallelogram.h"
 #include "InvalidFigure.h"
 
-Parallelogram::Parallelogram(double a, double b, double A, double B, bool throwIfInvalid) : Quadrangle(a, b, a, b, A, B, A, B, false)
+Parallelogram::Parallelogram(double a, double b, double c, double d, double A, double B, double C, double D, bool throwIfInvalid) : Quadrangle(a, b, c, d, A, B, C, D, false)
 {
 	std::string reason;
 	if (throwIfInvalid && !validate(reason))

@@ -1,7 +1,7 @@
 ﻿#include "Rhombus.h"
 #include "InvalidFigure.h"
 
-Rhombus::Rhombus(double a, double A, double B, bool throwIfInvalid) : Parallelogram(a, a, A, B, false)
+Rhombus::Rhombus(double a, double b, double c, double d, double A, double B, double C, double D, bool throwIfInvalid) : Parallelogram(a, b, c, d, A, B, C, D, false)
 {
 	std::string reason;
 	if (throwIfInvalid && !validate(reason))

@@ -1,7 +1,7 @@
 ﻿#include "Square.h"
 #include "InvalidFigure.h"
 
-Square::Square(double a, bool throwIfInvalid) : Rectangle(a, a, false)
+Square::Square(double a, double b, double c, double d, double A, double B, double C, double D, bool throwIfInvalid) : Rectangle(a, b, c, d, A, B, C, D, false)
 {
 	std::string reason;
 	if (throwIfInvalid && !validate(reason))

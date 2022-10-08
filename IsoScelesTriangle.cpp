@@ -1,7 +1,7 @@
 ﻿#include "IsoScelesTriangle.h"
 #include "InvalidFigure.h"
 
-IsoScelesTriangle::IsoScelesTriangle(double a, double b, double A, double B, bool throwIfInvalid) : Triangle(a, b, a, A, B, A, false)
+IsoScelesTriangle::IsoScelesTriangle(double a, double b, double c, double A, double B, double C, bool throwIfInvalid) : Triangle(a, b, c, A, B, C, false)
 {
 	std::string reason;
 	if (throwIfInvalid && !validate(reason))

@@ -4,12 +4,12 @@
 class IsoScelesTriangle : public Triangle
 {
 public:
-	IsoScelesTriangle(double a, double b, double A, double B) : IsoScelesTriangle(a, b, A, B, true) {};
+	IsoScelesTriangle(double a, double b, double c, double A, double B, double C) : IsoScelesTriangle(a, b, c, A, B, C, true) {};
 
 	std::string getName() override;
 
 protected:
-	IsoScelesTriangle(double a, double b, double A, double B, bool throwIfInvalid);
+	IsoScelesTriangle(double a, double b, double c, double A, double B, double C, bool throwIfInvalid);
 
 	bool validate(std::string& reason) override;
 };

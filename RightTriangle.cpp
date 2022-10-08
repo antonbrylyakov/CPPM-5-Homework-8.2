@@ -1,7 +1,7 @@
 ﻿#include "RightTriangle.h"
 #include "InvalidFigure.h"
 
-RightTriangle::RightTriangle(double a, double b, double c, double A, double B, bool throwIfInvalid) : Triangle(a, b, c, A, B, 90, false)
+RightTriangle::RightTriangle(double a, double b, double c, double A, double B, double C, bool throwIfInvalid) : Triangle(a, b, c, A, B, C, false)
 {
 	std::string reason;
 	if (throwIfInvalid && !validate(reason))
