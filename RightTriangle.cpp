@@ -1,21 +1,37 @@
 ﻿#include "RightTriangle.h"
 #include "InvalidFigure.h"
 
-RightTriangle::RightTriangle(double a, double b, double c, double A, double B) : Triangle(a, b, c, A, B, 90)
+RightTriangle::RightTriangle(double a, double b, double c, double A, double B, bool throwIfInvalid) : Triangle(a, b, c, A, B, 90, false)
 {
-	_name = "Прямоугольный треугольник";
-	validate();
+	std::string reason;
+	if (throwIfInvalid && !validate(reason))
+	{
+		std::string name = getName();
+		std::string summary = getSideAndAngleSummary();
+		std::string message = formatErrorReport(name, summary, reason);
+		throw InvalidFigure(message);
+	}
 }
 
-void RightTriangle::validate()
+std::string RightTriangle::getName()
+{
+	return "Прямоугольный треугольник";
+}
+
+bool RightTriangle::validate(std::string& reason)
 {
 	// базовая проверка для треугольника - сумма углов.
-	Triangle::validate();
+	if (!Triangle::validate(reason))
+	{
+		return false;
+	}
 
 	// Новая проверка для прямоугольного треугольника.
 	if (getC() != 90)
 	{
-		std::string message = getErrorReport("Угол C не равен 90");
-		throw InvalidFigure(message);
+		reason = "Угол C не равен 90";
+		return false;
 	}
+
+	return true;
 }

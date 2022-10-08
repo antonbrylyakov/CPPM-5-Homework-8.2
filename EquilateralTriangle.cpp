@@ -1,28 +1,44 @@
 ﻿#include "EquilateralTriangle.h"
 #include "InvalidFigure.h"
 
-EquilateralTriangle::EquilateralTriangle(double a) : IsoScelesTriangle(a, a, 60, 60)
+EquilateralTriangle::EquilateralTriangle(double a, bool throwIfInvalid) : IsoScelesTriangle(a, a, 60, 60, false)
 {
-	_name = "Равносторонний треугольник";
-	validate();
+	std::string reason;
+	if (throwIfInvalid && !validate(reason))
+	{
+		std::string name = getName();
+		std::string summary = getSideAndAngleSummary();
+		std::string message = formatErrorReport(name, summary, reason);
+		throw InvalidFigure(message);
+	}
 }
 
-void EquilateralTriangle::validate()
+std::string EquilateralTriangle::getName()
+{
+	return "Равносторонний треугольник";
+}
+
+bool EquilateralTriangle::validate(std::string& reason)
 {
 	// базовая проверка для равнобедренного треугольника - сумма углов, стороны a, c и углы A, C.
-	IsoScelesTriangle::validate();
+	if (!IsoScelesTriangle::validate(reason))
+	{
+		return false;
+	}
 
 	// Новая проверка для равностороннего треугольника.
 	if (geta() != getb())
 	{
-		std::string message = getErrorReport("Стороны a и b не равны");
-		throw InvalidFigure(message);
+		reason = "Стороны a и b не равны";
+		return false;
 	}
 
 	// Новая проверка для равностороннего треугольника.
 	if (getA() != getB())
 	{
-		std::string message = getErrorReport("Углы A и B не равны");
-		throw InvalidFigure(message);
+		reason = "Углы A и B не равны";
+		return false;
 	}
+
+	return true;
 }

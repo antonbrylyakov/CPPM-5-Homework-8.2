@@ -4,7 +4,7 @@
 class Quadrangle : public Figure
 {
 public:
-	Quadrangle(double a, double b, double c, double d, double A, double B, double C, double D);
+	Quadrangle(double a, double b, double c, double d, double A, double B, double C, double D) :Quadrangle(a, b, c, d, A, B, C, D, true) {};
 
 	double geta();
 
@@ -22,17 +22,18 @@ public:
 
 	double getD();
 
+	std::string getName() override;
+
 	std::string getFigureCreationReport() override;
 
 protected:
-
-	virtual std::string getErrorReport(std::string& reason) override;
-
-	virtual std::string getErrorReport(const char* reason) override;
+	Quadrangle(double a, double b, double c, double d, double A, double B, double C, double D, bool throwIfNotValid);
 
 	virtual std::string getSideAndAngleSummary() override;
 
-	void validate() override;
+	std::string formatErrorReport(std::string& name, std::string& summary, std::string& reason) override;
+
+	bool validate(std::string& reason) override;
 
 private:
 	double _a, _b, _c, _d, _A, _B, _C, _D;

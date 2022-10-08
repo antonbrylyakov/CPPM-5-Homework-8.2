@@ -1,25 +1,41 @@
 ﻿#include "Square.h"
 #include "InvalidFigure.h"
 
-Square::Square(double a) : Rectangle(a, a)
+Square::Square(double a, bool throwIfInvalid) : Rectangle(a, a, false)
 {
-	_name = "Квадрат";
-	validate();
+	std::string reason;
+	if (throwIfInvalid && !validate(reason))
+	{
+		std::string name = getName();
+		std::string summary = getSideAndAngleSummary();
+		std::string message = formatErrorReport(name, summary, reason);
+		throw InvalidFigure(message);
+	}
 }
 
-void Square::validate()
+std::string Square::getName()
 {
-	Rectangle::validate();
+	return "Квадрат";
+}
+
+bool Square::validate(std::string& reason)
+{
+	if (!Rectangle::validate(reason))
+	{
+		return false;
+	}
 
 	if (geta() != getb())
 	{
-		std::string message = getErrorReport("Стороны a и b равны");
-		throw InvalidFigure(message);
+		reason = "Стороны a и b равны";
+		return false;
 	}
 
 	if (getc() != getd())
 	{
-		std::string message = getErrorReport("Стороны c и d равны");
-		throw InvalidFigure(message);
+		reason = "Стороны c и d равны";
+		return false;
 	}
+
+	return true;
 }

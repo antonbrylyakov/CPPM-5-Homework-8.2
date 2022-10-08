@@ -1,16 +1,22 @@
 ﻿#include "Figure.h"
 #include "InvalidFigure.h"
 
-Figure::Figure()
+Figure::Figure(bool throwIfInvalid)
 {
-	_name = "Фигура";
 	_sideCount = 0;
-	validate();
+	std::string reason;
+	if (throwIfInvalid && !validate(reason))
+	{
+		std::string name = getName();
+		std::string summary = getSideAndAngleSummary();
+		std::string message = formatErrorReport(name, summary, reason);
+		throw InvalidFigure(message);
+	}
 }
 
-std::string& Figure::getName()
+std::string Figure::getName()
 {
-	return _name;
+	return "Фигура";
 }
 
 unsigned int Figure::getSideCount()
@@ -20,7 +26,7 @@ unsigned int Figure::getSideCount()
 
 std::string Figure::getFigureCreationReport()
 {
-	std::string res = getFigureSummary() + "создана.";
+	std::string res = getName() + " " + getSideAndAngleSummary() + " создана.";
 	return res;
 }
 
@@ -30,29 +36,19 @@ std::string Figure::getSideAndAngleSummary()
 	return res;
 }
 
-std::string Figure::getFigureSummary()
+std::string Figure::formatErrorReport(std::string& name, std::string& summary, std::string& reason)
 {
-	std::string res = getName() + " " + getSideAndAngleSummary();
+	std::string res = name + " " + summary + " не создана. Причина: " + reason;
 	return res;
 }
 
-std::string Figure::getErrorReport(std::string& reason)
-{
-	std::string res = getFigureSummary() + " не создана. Причина: " + reason;
-	return res;
-}
-
-std::string Figure::getErrorReport(const char* reason)
-{
-	std::string res = getFigureSummary() + " не создана. Причина: " + reason;
-	return res;
-}
-
-void Figure::validate()
+bool Figure::validate(std::string& reason)
 {
 	if (_sideCount != 0)
 	{
-		std::string message = getErrorReport("Количество сторон не равно нулю");
-		throw InvalidFigure(message);
+		reason = "Количество сторон не равно нулю";
+		return false;
 	}
+
+	return true;
 }

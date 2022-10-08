@@ -2,7 +2,7 @@
 #include "InvalidFigure.h"
 #include <sstream>
 
-Triangle::Triangle(double a, double b, double c, double A, double B, double C)
+Triangle::Triangle(double a, double b, double c, double A, double B, double C, bool throwIfInvalid)
 {
 	_a = a;
 	_b = b;
@@ -10,9 +10,21 @@ Triangle::Triangle(double a, double b, double c, double A, double B, double C)
 	_A = A;
 	_B = B;
 	_C = C;
-	_name = "Треугольник";
 	_sideCount = 3;
-	validate();
+
+	std::string reason;
+	if (throwIfInvalid && !validate(reason))
+	{
+		std::string name = getName();
+		std::string summary = getSideAndAngleSummary();
+		std::string message = formatErrorReport(name, summary, reason);
+		throw InvalidFigure(message);
+	}
+}
+
+std::string Triangle::getName()
+{
+	return "Треугольник";
 }
 
 double Triangle::geta()
@@ -47,7 +59,13 @@ double Triangle::getC()
 
 std::string Triangle::getFigureCreationReport()
 {
-	std::string res = getFigureSummary() + " создан.";
+	std::string res = getName() + " " + getSideAndAngleSummary() + " создан.";
+	return res;
+}
+
+std::string Triangle::formatErrorReport(std::string& name, std::string& summary, std::string& reason)
+{
+	std::string res = name + " " + summary + " не создан. Причина: " + reason;
 	return res;
 }
 
@@ -71,29 +89,19 @@ std::string Triangle::getSideAndAngleSummary()
 	return oss.str();
 }
 
-std::string Triangle::getErrorReport(std::string& reason)
-{
-	std::string res = getFigureSummary() + " не создан. Причина: " + reason;
-	return res;
-}
-
-std::string Triangle::getErrorReport(const char* reason)
-{
-	std::string res = getFigureSummary() + " не создан. Причина: " + reason;
-	return res;
-}
-
-void Triangle::validate()
+bool Triangle::validate(std::string& reason)
 {
 	if (getSideCount() != 3)
 	{
-		std::string message = getErrorReport("Количество сторон не равно 3");
-		throw InvalidFigure(message);
+		reason = "Количество сторон не равно 3";
+		return false;
 	}
 
 	if (getA() + getB() + getC() != 180)
 	{
-		std::string message = getErrorReport("Сумма углов не равна 180");
-		throw InvalidFigure(message);
+		reason = "Сумма углов не равна 180";
+		return false;
 	}
+
+	return true;
 }

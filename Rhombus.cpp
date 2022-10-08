@@ -1,25 +1,41 @@
 ﻿#include "Rhombus.h"
 #include "InvalidFigure.h"
 
-Rhombus::Rhombus(double a, double A, double B) : Parallelogram(a, a, A, B)
+Rhombus::Rhombus(double a, double A, double B, bool throwIfInvalid) : Parallelogram(a, a, A, B, false)
 {
-	_name = "Ромб";
-	validate();
+	std::string reason;
+	if (throwIfInvalid && !validate(reason))
+	{
+		std::string name = getName();
+		std::string summary = getSideAndAngleSummary();
+		std::string message = formatErrorReport(name, summary, reason);
+		throw InvalidFigure(message);
+	}
 }
 
-void Rhombus::validate()
+std::string Rhombus::getName()
 {
-	Parallelogram::validate();
+	return "Ромб";
+}
+
+bool Rhombus::validate(std::string& reason)
+{
+	if (!Parallelogram::validate(reason))
+	{
+		return false;
+	}
 
 	if (geta() != getb())
 	{
-		std::string message = getErrorReport("Стороны a и b равны");
-		throw InvalidFigure(message);
+		reason = "Стороны a и b равны";
+		return false;
 	}
 
 	if (getc() != getd())
 	{
-		std::string message = getErrorReport("Стороны c и d равны");
-		throw InvalidFigure(message);
+		reason = "Стороны c и d равны";
+		return false;
 	}
+
+	return true;
 }

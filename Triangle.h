@@ -4,7 +4,7 @@
 class Triangle : public Figure
 {
 public:
-	Triangle(double a, double b, double c, double A, double B, double C);
+	Triangle(double a, double b, double c, double A, double B, double C) : Triangle(a, b, c, A, B, C, true) {};
 
 	double geta();
 
@@ -18,17 +18,18 @@ public:
 
 	double getC();
 
+	std::string getName() override;
+
 	std::string getFigureCreationReport() override;
 
 protected:
-
-	virtual std::string getErrorReport(std::string& reason) override;
-
-	virtual std::string getErrorReport(const char* reason) override;
+	Triangle(double a, double b, double c, double A, double B, double C, bool throwIfInvalid);
 
 	virtual std::string getSideAndAngleSummary() override;
 
-	void validate() override;
+	std::string formatErrorReport(std::string& name, std::string& summary, std::string& reason) override;
+
+	bool validate(std::string& reason) override;
 
 private:
 	double _a, _b, _c, _A, _B, _C;

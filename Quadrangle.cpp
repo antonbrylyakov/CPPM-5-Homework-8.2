@@ -2,7 +2,7 @@
 #include <sstream>
 #include "InvalidFigure.h"
 
-Quadrangle::Quadrangle(double a, double b, double c, double d, double A, double B, double C, double D)
+Quadrangle::Quadrangle(double a, double b, double c, double d, double A, double B, double C, double D, bool throwIfInvalid)
 {
 	_a = a;
 	_b = b;
@@ -12,9 +12,21 @@ Quadrangle::Quadrangle(double a, double b, double c, double d, double A, double 
 	_B = B;
 	_C = C;
 	_D = D;
-	_name = "Четырехугольник";
 	_sideCount = 4;
-	validate();
+
+	std::string reason;
+	if (throwIfInvalid && !validate(reason))
+	{
+		std::string name = getName();
+		std::string summary = getSideAndAngleSummary();
+		std::string message = formatErrorReport(name, summary, reason);
+		throw InvalidFigure(message);
+	}
+}
+
+std::string Quadrangle::getName()
+{
+	return "Четырехугольник";
 }
 
 double Quadrangle::geta()
@@ -59,7 +71,7 @@ double Quadrangle::getD()
 
 std::string Quadrangle::getFigureCreationReport()
 {
-	std::string res = getFigureSummary() + " создан.";
+	std::string res = getName() + " " + getSideAndAngleSummary() + " создан.";
 	return res;
 }
 
@@ -87,29 +99,25 @@ std::string Quadrangle::getSideAndAngleSummary()
 	return oss.str();
 }
 
-std::string Quadrangle::getErrorReport(std::string& reason)
+std::string Quadrangle::formatErrorReport(std::string& name, std::string& summary, std::string& reason)
 {
-	std::string res = getFigureSummary() + " не создан. Причина: " + reason;
+	std::string res = name + " " + summary + " не создан. Причина: " + reason;
 	return res;
 }
 
-std::string Quadrangle::getErrorReport(const char* reason)
-{
-	std::string res = getFigureSummary() + " не создан. Причина: " + reason;
-	return res;
-}
-
-void Quadrangle::validate()
+bool Quadrangle::validate(std::string& reason)
 {
 	if (getSideCount() != 4)
 	{
-		std::string message = getErrorReport("Количество сторон не равно 4");
-		throw InvalidFigure(message);
+		reason = "Количество сторон не равно 4";
+		return false;
 	}
 
 	if (getA() + getB() + getC() + getD() != 360)
 	{
-		std::string message = getErrorReport("Сумма углов не равна 360");
-		throw InvalidFigure(message);
+		reason = "Сумма углов не равна 360";
+		return false;
 	}
+
+	return true;
 }

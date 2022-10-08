@@ -20,8 +20,11 @@ int main()
 		Triangle f1(10, 20, 30, 100, 40, 40);
 		std::cout << f1.getFigureCreationReport() << std::endl;
 
-		IsoScelesTriangle f2(10, 20, 20, 80);
+		IsoScelesTriangle f2(10, 20, 20, 84);
 		std::cout << f2.getFigureCreationReport() << std::endl;
+
+		Rhombus f3(10, 20, 15);
+		std::cout << f3.getFigureCreationReport() << std::endl;
 	}
 	catch (InvalidFigure& ex)
 	{

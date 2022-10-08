@@ -1,37 +1,53 @@
 ﻿#include "Rectangle.h"
 #include "InvalidFigure.h"
 
-Rectangle::Rectangle(double a, double b) : Parallelogram(a, b, 90, 90)
+Rectangle::Rectangle(double a, double b, bool throwIfInvalid) : Parallelogram(a, b, 90, 90, false)
 {
-	_name = "Прямоугольник";
-	validate();
+	std::string reason;
+	if (throwIfInvalid && !validate(reason))
+	{
+		std::string name = getName();
+		std::string summary = getSideAndAngleSummary();
+		std::string message = formatErrorReport(name, summary, reason);
+		throw InvalidFigure(message);
+	}
 }
 
-void Rectangle::validate()
+std::string Rectangle::getName()
+{
+	return "Прямоугольник";
+}
+
+bool Rectangle::validate(std::string& reason)
 {
 	if (getA() != 90)
 	{
-		std::string message = getErrorReport("Угол A не равен 90");
-		throw InvalidFigure(message);
+		reason = "Угол A не равен 90";
+		return false;
 	}
 
 	if (getB() != 90)
 	{
-		std::string message = getErrorReport("Угол B не равен 90");
-		throw InvalidFigure(message);
+		reason = "Угол B не равен 90";
+		return false;
 	}
 
 	if (getC() != 90)
 	{
-		std::string message = getErrorReport("Угол C не равен 90");
-		throw InvalidFigure(message);
+		reason = "Угол C не равен 90";
+		return false;
 	}
 
 	if (getD() != 90)
 	{
-		std::string message = getErrorReport("Угол D не равен 90");
-		throw InvalidFigure(message);
+		reason = "Угол D не равен 90";
+		return false;
 	}
 
-	Parallelogram::validate();
+	if (!Parallelogram::validate(reason))
+	{
+		return false;
+	}
+
+	return true;
 }
