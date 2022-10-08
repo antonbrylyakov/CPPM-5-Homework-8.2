@@ -4,6 +4,7 @@
 Rhombus::Rhombus(double a, double A, double B) : Parallelogram(a, a, A, B)
 {
 	_name = "Ромб";
+	validate();
 }
 
 void Rhombus::validate()

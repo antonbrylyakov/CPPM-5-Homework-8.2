@@ -4,6 +4,7 @@
 Square::Square(double a) : Rectangle(a, a)
 {
 	_name = "Квадрат";
+	validate();
 }
 
 void Square::validate()

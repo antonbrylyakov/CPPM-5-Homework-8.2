@@ -14,6 +14,7 @@ Quadrangle::Quadrangle(double a, double b, double c, double d, double A, double 
 	_D = D;
 	_name = "Четырехугольник";
 	_sideCount = 4;
+	validate();
 }
 
 double Quadrangle::geta()
