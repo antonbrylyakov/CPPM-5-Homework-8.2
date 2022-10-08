@@ -1,4 +1,6 @@
 ﻿#include "Triangle.h"
+#include "InvalidFigure.h"
+#include <sstream>
 
 Triangle::Triangle(double a, double b, double c, double A, double B, double C)
 {
@@ -10,6 +12,7 @@ Triangle::Triangle(double a, double b, double c, double A, double B, double C)
 	_C = C;
 	_name = "Треугольник";
 	_sideCount = 3;
+	validate();
 }
 
 double Triangle::geta()
@@ -42,18 +45,55 @@ double Triangle::getC()
 	return _C;
 }
 
-void Triangle::printSideInfo()
+std::string Triangle::getFigureCreationReport()
 {
-	std::cout << "Стороны: ";
-	std::cout << "a = " << geta() << ", ";
-	std::cout << "b = " << getb() << ", ";
-	std::cout << "c = " << getc() << std::endl;
+	std::string res = getFigureSummary() + " создан.";
+	return res;
 }
 
-void Triangle::printAngleInfo()
+std::string Triangle::getSideAndAngleSummary()
 {
-	std::cout << "Углы: ";
-	std::cout << "A = " << getA() << ", ";
-	std::cout << "B = " << getB() << ", ";
-	std::cout << "C = " << getC() << std::endl;
+	std::ostringstream oss;
+	oss << "(стороны " 
+		<< geta() 
+		<< ", " 
+		<< getb() 
+		<< ", "
+		<< getc()
+		<< "; Углы "
+		<< getA()
+		<< ", "
+		<< getB()
+		<< ", "
+		<< getC()
+		<< ")";
+
+	return oss.str();
+}
+
+std::string Triangle::getErrorReport(std::string& reason)
+{
+	std::string res = getFigureSummary() + " не создан. Причина: " + reason;
+	return res;
+}
+
+std::string Triangle::getErrorReport(const char* reason)
+{
+	std::string res = getFigureSummary() + " не создан. Причина: " + reason;
+	return res;
+}
+
+void Triangle::validate()
+{
+	if (getSideCount() != 3)
+	{
+		std::string message = getErrorReport("Количество сторон не равно 3");
+		throw InvalidFigure(message);
+	}
+
+	if (getA() + getB() + getC() != 180)
+	{
+		std::string message = getErrorReport("Сумма углов не равна 180");
+		throw InvalidFigure(message);
+	}
 }

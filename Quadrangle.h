@@ -22,10 +22,17 @@ public:
 
 	double getD();
 
-protected:
-	virtual void printSideInfo();
+	std::string getFigureCreationReport() override;
 
-	virtual void printAngleInfo();
+protected:
+
+	virtual std::string getErrorReport(std::string& reason) override;
+
+	virtual std::string getErrorReport(const char* reason) override;
+
+	virtual std::string getSideAndAngleSummary() override;
+
+	void validate() override;
 
 private:
 	double _a, _b, _c, _d, _A, _B, _C, _D;

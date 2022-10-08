@@ -5,4 +5,7 @@ class EquilateralTriangle : public IsoScelesTriangle
 {
 public:
 	EquilateralTriangle(double a);
+
+protected:
+	void validate() override;
 };

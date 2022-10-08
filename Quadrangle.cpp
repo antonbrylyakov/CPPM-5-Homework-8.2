@@ -1,4 +1,6 @@
 ﻿#include "Quadrangle.h"
+#include <sstream>
+#include "InvalidFigure.h"
 
 Quadrangle::Quadrangle(double a, double b, double c, double d, double A, double B, double C, double D)
 {
@@ -54,20 +56,59 @@ double Quadrangle::getD()
 	return _D;
 }
 
-void Quadrangle::printSideInfo()
+std::string Quadrangle::getFigureCreationReport()
 {
-	std::cout << "Стороны: ";
-	std::cout << "a = " << geta() << ", ";
-	std::cout << "b = " << getb() << ", ";
-	std::cout << "c = " << getc() << ", ";
-	std::cout << "d = " << getd() << std::endl;
+	std::string res = getFigureSummary() + " создан.";
+	return res;
 }
 
-void Quadrangle::printAngleInfo()
+std::string Quadrangle::getSideAndAngleSummary()
 {
-	std::cout << "Углы: ";
-	std::cout << "A = " << getA() << ", ";
-	std::cout << "B = " << getB() << ", ";
-	std::cout << "C = " << getC() << ", ";
-	std::cout << "D = " << getD() << std::endl;
+	std::ostringstream oss;
+	oss << "(стороны "
+		<< geta()
+		<< ", "
+		<< getb()
+		<< ", "
+		<< getc()
+		<< ", "
+		<< getd()
+		<< "; Углы "
+		<< getA()
+		<< ", "
+		<< getB()
+		<< ", "
+		<< getC()
+		<< ", "
+		<< getD()
+		<< ")";
+
+	return oss.str();
+}
+
+std::string Quadrangle::getErrorReport(std::string& reason)
+{
+	std::string res = getFigureSummary() + " не создан. Причина: " + reason;
+	return res;
+}
+
+std::string Quadrangle::getErrorReport(const char* reason)
+{
+	std::string res = getFigureSummary() + " не создан. Причина: " + reason;
+	return res;
+}
+
+void Quadrangle::validate()
+{
+	if (getSideCount() != 4)
+	{
+		std::string message = getErrorReport("Количество сторон не равно 4");
+		throw InvalidFigure(message);
+	}
+
+	if (getA() + getB() + getC() + getD() != 360)
+	{
+		std::string message = getErrorReport("Сумма углов не равна 360");
+		throw InvalidFigure(message);
+	}
 }

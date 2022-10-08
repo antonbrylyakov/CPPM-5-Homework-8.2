@@ -1,8 +1,11 @@
 ﻿#include "Figure.h"
+#include "InvalidFigure.h"
 
 Figure::Figure()
 {
 	_name = "Фигура";
+	_sideCount = 0;
+	validate();
 }
 
 std::string& Figure::getName()
@@ -15,20 +18,41 @@ unsigned int Figure::getSideCount()
 	return _sideCount;
 }
 
-void Figure::printString()
+std::string Figure::getFigureCreationReport()
 {
-	std::cout << getName() << std::endl;
-	printSideInfo();
-	printAngleInfo();
-	std::cout << std::endl;
+	std::string res = getFigureSummary() + "создана.";
+	return res;
 }
 
-void Figure::printSideInfo()
+std::string Figure::getSideAndAngleSummary()
 {
-
+	std::string res = "";
+	return res;
 }
 
-void Figure::printAngleInfo()
+std::string Figure::getFigureSummary()
 {
+	std::string res = getName() + " " + getSideAndAngleSummary();
+	return res;
+}
 
+std::string Figure::getErrorReport(std::string& reason)
+{
+	std::string res = getFigureSummary() + " не создана. Причина: " + reason;
+	return res;
+}
+
+std::string Figure::getErrorReport(const char* reason)
+{
+	std::string res = getFigureSummary() + " не создана. Причина: " + reason;
+	return res;
+}
+
+void Figure::validate()
+{
+	if (_sideCount != 0)
+	{
+		std::string message = getErrorReport("Количество сторон не равно нулю");
+		throw InvalidFigure(message);
+	}
 }

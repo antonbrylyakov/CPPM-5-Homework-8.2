@@ -10,13 +10,19 @@ public:
 
 	unsigned int getSideCount();
 
-	void printString();
+	virtual std::string getFigureCreationReport();
 
 protected:
 	std::string _name;
 	unsigned int _sideCount = 0;
 
-	virtual void printSideInfo();
+	virtual std::string getErrorReport(std::string& reason);
 
-	virtual void printAngleInfo();
+	virtual std::string getErrorReport(const char* reason);
+
+	virtual std::string getFigureSummary();
+
+	virtual std::string getSideAndAngleSummary();
+
+	virtual void validate();
 };

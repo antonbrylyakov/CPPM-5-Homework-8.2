@@ -5,5 +5,8 @@ class Square : public Rectangle
 {
 public:
 	Square(double a);
+
+protected:
+	void validate() override;
 };
 

@@ -5,4 +5,7 @@ class Rectangle : public Parallelogram
 {
 public:
 	Rectangle(double a, double b);
+
+protected:
+	void validate() override;
 };
